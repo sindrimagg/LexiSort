@@ -141,11 +141,11 @@ if __name__ == "__main__":
 
     if args.recursive:
         if args.path:
-            walk_rename(path = path, ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
+            walk_rename(path = args.path, ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
         else:
             walk_rename(path = '.', ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
     else:
         if args.path:
-            rename_dir(path = path, ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
+            rename_dir(path = args.path, ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
         else:
             rename_dir(path = '.', ignore_hidden = not args.hidden, change_empty = args.fill, dry = args.dry)
