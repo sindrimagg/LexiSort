@@ -132,7 +132,7 @@ if __name__ == "__main__":
             prog = 'lexnum',
             description = 'Renames files so that when they are ordered lexicographically their numbers are also numerically ordered, e.g. if you have two files "Week 9" and "Week 10" this program will change the former to "Week 09"'
             )
-    parser.add_argument('path', help = 'Paths to the directories which should have its entries renamed', type = str, nargs = '?')
+    parser.add_argument('path', help = "Path to the directory which should have its entries renamed, default to '.'", type = str, nargs = '?')
     parser.add_argument('-f', '--fill', help = 'If there are two files a and a1 then the former becomes a0', action = 'store_true')
     parser.add_argument('-r', '--recursive', help = 'Recursively renames entries in all subfolders', action = 'store_true')
     parser.add_argument('-d', '--hidden', help = 'Changes hidden files and directories', action = 'store_true')
