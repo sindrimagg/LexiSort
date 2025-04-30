@@ -129,7 +129,7 @@ def walk_rename(path = '.', ignore_hidden = True, change_empty = True, dry = Fal
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-            prog = 'LexiSort',
+            prog = 'lexisort',
             description = 'Renames files so that when they are ordered lexicographically their numbers are also numerically ordered, e.g. if you have two files "Week 9" and "Week 10" this program will change the former to "Week 09"'
             )
     parser.add_argument('path', help = "Path to the directory which should have its entries renamed, defaults to '.'", type = str, nargs = '?')

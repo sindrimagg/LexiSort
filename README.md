@@ -1,4 +1,4 @@
-= LexiSort
+# LexiSort
 
 Renames files so that when files are lexicographically ordered their numbers are also numerically ordered.
 
@@ -62,9 +62,15 @@ School
 └── Week 13
 ```
 
-== Usage
+## Usage
 
-LexiSort [-h] [-f] [-r] [-d] [--dry] [path]
+To run the program use the following command:
+
+```bash
+python lexisort.py [flags] [path]
+```
+
+lexisort [-h] [-f] [-r] [-d] [--dry] [path]
 
 Renames files so that when they are ordered lexicographically their numbers are also numerically ordered, e.g. if you have two files "Week 9"
 and "Week 10" this program will change the former to "Week 09"
@@ -78,3 +84,9 @@ options:
   -r, --recursive  Recursively renames entries in all subfolders
   -d, --hidden     Changes hidden files and directories
   --dry            See which files would change
+
+## TODO
+
+- Better error handling and logs
+- Package it
+- Add Nix Flake support so it would be possible to run nix run github:sindrimagg/lexisort
