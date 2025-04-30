@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import re,os,itertools,stat,sys,argparse
 
 def eprint(*args, **kwargs):
