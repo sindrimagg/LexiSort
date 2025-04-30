@@ -6,28 +6,60 @@ def weave(*iterable):
             yield element
     
 def combine(txt, nums, max_lens):
-    padded_nums = ('0'*(max_len - len(num)) + num for num, max_len in zip(nums, max_lens))
+    padded_nums = (num.rjust(max_len, '0') for num, max_len in zip(nums, max_lens))
     return ''.join(weave(txt, padded_nums))
 
-filenames = os.listdir()
+def add_list_dict(dictionary, key, item):
+    try:
+        dictionary[key].append(item)
+    except KeyError:
+        dictionary[key] = [item]
+
 digs = re.compile(r'\d+')
-sep = re.compile(fr'{os.sep}')
+sep = re.compile('0')
 
-hm = {}
-for file in filenames:
-    text = re.split(digs, file)
-    nums = re.findall(digs, file)
+def process_entry(entry, dictionary, ignore_ext = False):
+    path, ext = os.path.splitext(entry.name)
+    name = path if ignore_ext and entry.is_file() else entry.name
+    text, nums = re.split(digs, name), re.findall(digs, name)
+    if nums:
+        key = '0'.join(text)
+        add_list_dict(dictionary, key, (nums, entry.path, ext))
+        
+def get_new_names(path, name_map):
+    for key,num_list in name_map.items():
+        max_lengths = [max(map(lambda x: len(x), col)) for col in zip(*(nums for nums, _, _ in num_list))]
 
-    tup_text = f'{os.sep}'.join(text)
-    if tup_text in hm:
-        hm[tup_text].append(nums)
-    else:
-        hm[tup_text] = [nums]
+        txt = re.split(sep, key)
+        for num in sorted(num_list):
+            out = os.path.join(path, combine(txt, num[0], max_lengths) + num[2])
+            if num[1] != out:
+                print(f"{'Was':<10}" + num[1])
+                print(f"{'Becomes':<10}" + out + '\n')
+            else:
+                print(f"{'Unchanged':<10}" + num[1] + '\n')
 
-for text,num_list in hm.items():
-    max_lengths = [max(map(lambda x: len(x), col)) for col in zip(*num_list)]
+def rename_dir(path = '.', ignore_ext = True, dirs = True, files = True, dir_map = {}, file_map = {}):
+    big_list = []
+    for entry in os.scandir(path):
+        nums = re.findall(digs, entry.name)
+        nums.append('')
+        big_list.append((re.split(digs, entry.name), nums))
 
-    txt = re.split(sep, text)
-    for num in num_list:
-        out = combine(txt, num, max_lengths)
-        print('Was: ' + ''.join(weave(txt, num)) + '\nBecomes: ' + out + '\n')
+        if entry.is_dir() and dirs:
+            process_entry(entry, dir_map)
+        elif entry.is_file() and files:
+            process_entry(entry, file_map, ignore_ext)
+
+    if dirs:
+        print('Changed directories:')
+        print(f"{'':-<20}")
+        get_new_names(path, dir_map)
+    if files:
+        print('Changed files:')
+        print(f"{'':-<20}")
+        get_new_names(path, file_map)
+
+rename_dir(dirs = True, files = True)
+
+
