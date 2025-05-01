@@ -2,7 +2,7 @@
 
 Renames files so that when files are lexicographically ordered their numbers are also numerically ordered.
 
-Before we run the program in the directory /School/:
+Before we run the program in the directory *School*:
 ```bash
 School
 ├── Week 1
@@ -70,6 +70,22 @@ To run the program use the following command:
 python lexisort.py [flags] [path]
 ```
 
+### Nix
+
+It is also possible to run it using Nix flakes:
+
+```bash
+nix run github:sindrimagg/lexisort
+```
+
+If you want to open it in a Nix shell:
+
+```bash
+nix shell github:sindrimagg/lexisort
+```
+
+### The help Output
+
 lexisort [-h] [-f] [-r] [-d] [--dry] [path]
 
 Renames files so that when they are ordered lexicographically their numbers are also numerically ordered, e.g. if you have two files "Week 9"
@@ -88,5 +104,3 @@ options:
 ## TODO
 
 - Better error handling and logs
-- Package it
-- Add Nix Flake support so it would be possible to run nix run github:sindrimagg/lexisort
