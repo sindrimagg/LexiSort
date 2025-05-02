@@ -80,8 +80,13 @@ def rename_dir(path = '.', ignore_hidden = True, change_empty = True, dry = Fals
     if not os.path.isdir(path):
         return
 
+    try:
+        scan_dir = os.scandir(path)
+    except PermissionError:
+        return
+
     entry_list = []
-    for entry in os.scandir(path):
+    for entry in scan_dir:
         if is_hidden(os.path.join(path, entry.name)) and ignore_hidden:
             continue
         # remove the file extension if it exists
@@ -123,8 +128,13 @@ def rename_dir(path = '.', ignore_hidden = True, change_empty = True, dry = Fals
     #eprint(root_node, end='')
 
 def walk_rename(path = '.', ignore_hidden = True, change_empty = True, dry = False):
+    try:
+        scan_dir = os.scandir(path)
+    except PermissionError:
+        return
+
     for entry in os.scandir(path):
-        if entry.is_dir() and not (is_hidden(os.path.join(path, entry.name)) and ignore_hidden):
+        if entry.is_dir() and not (is_hidden(os.path.join(path, entry.name)) and ignore_hidden) and not entry.is_symlink():
                 walk_rename(os.path.join(path, entry.name), ignore_hidden, change_empty, dry)
 
     rename_dir(path, ignore_hidden, change_empty, dry)
